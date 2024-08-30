@@ -56,6 +56,7 @@ async function addDoc (original_url, short_url) {
 app.post('/api/shorturl', express.urlencoded(), async function(req, res) {
 
   let cleanUrl;
+  
   try {
     // Attempt to create a URL object
     cleanUrl = new URL(req.body.url);
@@ -64,7 +65,7 @@ app.post('/api/shorturl', express.urlencoded(), async function(req, res) {
     return res.json({ error: 'invalid url' });
   }
   
-  dns.lookup(cleanUrl.hostname,0, async (err, address, family) => {
+  dns.lookup(cleanUrl.hostname, async (err, address, family) => {
     if (err||!address) return res.json({ error: 'invalid url' });
 
     const data = await findDocByShortUrl(req.body.url)    
